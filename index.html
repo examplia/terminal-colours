@@ -3,7 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Oxy's Terminal</title>
+  <title>oxy's terminal</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/oxy-favicon.png">
+
+  <!-- Open Graph / Discord Embed -->
+  <meta property="og:title" content="oxy's terminal">
+  <meta property="og:description" content="just messing around, owning things (like websites)">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourdomain.com">
+  <meta property="og:image" content="https://yourdomain.com/oxy-embed.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="oxy's terminal">
+  <meta name="twitter:description" content="just messing around, owning things (like websites)">
+  <meta name="twitter:image" content="https://yourdomain.com/oxy-embed.png">
+
   <style>
     body {
       margin: 0;
@@ -45,7 +62,7 @@
       background: rgba(0, 0, 0, 0.85);
       position: relative;
       z-index: 2;
-      line-height: 1.6;
+      white-space: pre-wrap;
     }
 
     .cursor {
@@ -64,44 +81,28 @@
   </style>
 </head>
 <body>
-  <div class="terminal" id="terminal">
-    <!-- Typed text will go here -->
-    <span class="cursor" id="cursor"></span>
-  </div>
+  <div class="terminal" id="terminal"></div>
 
   <script>
-    const lines = [
-      "> hello, my name is Oxy",
-      "> i like owning things (websites)",
-      "> and messing around with stuff...",
-      "> end of file"
-    ];
-
+    const text = `> hello, my name is oxy
+> i like owning things (websites)
+> and messing around with stuff...
+> end of file`;
+    
+    let i = 0;
+    const speed = 50; // typing speed in ms
     const terminal = document.getElementById("terminal");
-    const cursor = document.getElementById("cursor");
 
-    let lineIndex = 0;
-    let charIndex = 0;
-
-    function typeLine() {
-      if (lineIndex < lines.length) {
-        let currentLine = lines[lineIndex];
-        
-        if (charIndex < currentLine.length) {
-          cursor.insertAdjacentText("beforebegin", currentLine.charAt(charIndex));
-          charIndex++;
-          setTimeout(typeLine, 50); // typing speed
-        } else {
-          // new line
-          cursor.insertAdjacentHTML("beforebegin", "<br>");
-          lineIndex++;
-          charIndex = 0;
-          setTimeout(typeLine, 400); // pause between lines
-        }
+    function typeWriter() {
+      if (i < text.length) {
+        terminal.innerHTML = text.substring(0, i+1) + '<span class="cursor"></span>';
+        i++;
+        setTimeout(typeWriter, speed);
+      } else {
+        terminal.innerHTML = text + '<span class="cursor"></span>';
       }
     }
-
-    typeLine();
+    typeWriter();
   </script>
 </body>
 </html>
